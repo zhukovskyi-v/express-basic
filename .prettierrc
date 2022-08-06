@@ -1,0 +1,6 @@
+{
+  "prettier": "minimalistic",
+  "singleQuote": true,
+  "semi": false,
+  "printWidth": 70
+}
