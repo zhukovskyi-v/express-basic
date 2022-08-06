@@ -1,11 +1,14 @@
 import { Response, Router } from 'express'
-import { LoggerService } from '../logger'
+import { injectable } from 'inversify'
+import 'reflect-metadata'
+import { ILogger } from '../logger/logger.interface'
 import { IRouteController } from './route.interface'
 
+@injectable()
 export abstract class BaseController {
   private readonly _router: Router
 
-  constructor(private readonly logger: LoggerService) {
+  constructor(private readonly logger: ILogger) {
     this._router = Router()
   }
 

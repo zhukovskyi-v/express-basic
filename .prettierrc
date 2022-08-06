@@ -2,5 +2,5 @@
   "prettier": "minimalistic",
   "singleQuote": true,
   "semi": false,
-  "printWidth": 70
+  "printWidth": 80
 }

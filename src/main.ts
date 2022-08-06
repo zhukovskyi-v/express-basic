@@ -1,16 +1,17 @@
+import { Container } from 'inversify'
+import 'reflect-metadata'
 import { App } from './app'
-import { ExceptionFilter } from './errors'
-import { LoggerService } from './logger'
-import { UserController } from './users'
+import { appBindings } from './app.module'
+import { TYPES } from './types'
+import { userBindings } from './users/user.module'
 
-async function bootstrap() {
-  const logger = new LoggerService()
-  const app = new App(
-    logger,
-    new UserController(logger),
-    new ExceptionFilter(logger)
-  )
-  await app.initialize()
+export const bootstrap = () => {
+  const appContainer = new Container()
+  appContainer.load(appBindings, userBindings)
+  const app = appContainer.get<App>(TYPES.Application)
+
+  app.initialize()
+  return { app, appContainer }
 }
 
-bootstrap()
+export const { app, appContainer } = bootstrap()

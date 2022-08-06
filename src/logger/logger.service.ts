@@ -1,5 +1,7 @@
+import { injectable } from 'inversify'
 import { Logger } from 'tslog'
 
+@injectable()
 export class LoggerService {
   public logger: Logger
 

@@ -1,17 +1,22 @@
 import express, { Express } from 'express'
 import { Server } from 'http'
+import { inject, injectable } from 'inversify'
 import { ExceptionFilter } from './errors'
-import { LoggerService } from './logger'
+import { ILogger } from './logger/logger.interface'
+import { TYPES } from './types'
 import { UserController } from './users'
 
+@injectable()
 export class App {
   app: Express
   port: number
   server: Server
 
   constructor(
-    public readonly logger: LoggerService,
+    @inject(TYPES.ILogger) public readonly logger: ILogger,
+    @inject(TYPES.IUserController)
     public readonly userController: UserController,
+    @inject(TYPES.ExceptionFilter)
     public readonly exceptionFilter: ExceptionFilter
   ) {
     this.app = express()
@@ -23,9 +28,7 @@ export class App {
   }
 
   useExceptionFilters() {
-    this.app.use(
-      this.exceptionFilter.catch.bind(this.exceptionFilter)
-    )
+    this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter))
   }
 
   public async initialize() {
