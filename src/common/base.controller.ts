@@ -12,28 +12,36 @@ export abstract class BaseController {
     this._router = Router()
   }
 
-  get router() {
+  get router(): Router {
     return this._router
   }
 
-  public send<T>(res: Response, code: number, message: T) {
+  public send<T>(
+    res: Response,
+    code: number,
+    message: T
+  ): Response<any, Record<string, any>> {
     res.type('application/json')
     return res.status(200).json(message)
   }
 
-  public ok<T>(res: Response, message: T) {
+  public ok<T>(res: Response, message: T): void {
     this.send<T>(res, 200, message)
   }
 
-  public created(res: Response) {
+  public created(res: Response): void {
     res.status(200)
   }
 
   protected bindRoutes(routes: IRouteController[]): void {
     for (const route of routes) {
+      const middleware = (route.middlewares || [])?.map((middleware) =>
+        middleware.execute.bind(middleware)
+      )
       const handler = route.callback.bind(this)
+      const pipeline = middleware.length ? [...middleware, handler] : handler
       this.logger.log(route.method, route.path)
-      this.router[route.method](route.path, handler)
+      this.router[route.method](route.path, pipeline)
     }
   }
 }
