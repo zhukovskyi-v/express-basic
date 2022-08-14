@@ -2,6 +2,7 @@ import { ContainerModule } from 'inversify'
 import { App } from './app'
 import { ConfigService } from './config/config.service'
 import { IConfigService } from './config/config.service.interface'
+import { PrismaService } from './database/prisma.service'
 import { ExceptionFilter } from './errors'
 import { IExceptionFilter } from './errors/exception.filter.interface'
 import { LoggerService } from './logger'
@@ -15,4 +16,5 @@ export const appBindings = new ContainerModule((bind) => {
     .inSingletonScope()
   bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope()
   bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
+  bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope()
 })

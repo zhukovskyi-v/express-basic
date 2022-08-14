@@ -33,6 +33,10 @@ export abstract class BaseController {
     res.status(200)
   }
 
+  public error(res: Response, message: string): void {
+    res.status(422).json(message)
+  }
+
   protected bindRoutes(routes: IRouteController[]): void {
     for (const route of routes) {
       const middleware = (route.middlewares || [])?.map((middleware) =>

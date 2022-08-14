@@ -33,12 +33,16 @@ export class UserController extends BaseController implements IUserController {
     ])
   }
 
-  login(
-    req: Request<{}, {}, UserLoginDto>,
+  async login(
+    { body }: Request<{}, {}, UserLoginDto>,
     res: Response,
     next: NextFunction
-  ): void {
-    next(new HttpError(401, 'Invalid credentials', 'LOGIN'))
+  ): Promise<void> {
+    const user = await this.userService.validateUser(body)
+    if (!user) {
+      return next(new HttpError(401, 'Invalid email or password'))
+    }
+    return this.ok(res, 'Signed in')
   }
 
   async register(
@@ -47,6 +51,10 @@ export class UserController extends BaseController implements IUserController {
     next: NextFunction
   ): Promise<void> {
     const user = await this.userService.createUser(body)
+
+    if (!user) {
+      return this.error(res, 'User already registered')
+    }
     this.ok(res, user)
   }
 }

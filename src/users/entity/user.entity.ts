@@ -13,7 +13,7 @@ export class UserEntity {
   }
 
   get email(): string {
-    return this.email
+    return this._email
   }
 
   get password(): string {
@@ -21,6 +21,6 @@ export class UserEntity {
   }
 
   get name(): string {
-    return this.name
+    return this._name
   }
 }

@@ -11,17 +11,20 @@
     "lint": "eslint ./src/**",
     "build": "tsc",
     "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:3306 -r ts-node/register src/main.ts",
-    "autoclinick": "clinic doctor --sample-interval 120 --on-port 'autocannon -m POST localhost:$PORT/users/register' --stop-delay 1000 -- node dist/main.js"
+    "autoclinick": "clinic doctor --sample-interval 120 --on-port 'autocannon -m POST localhost:$PORT/users/register' --stop-delay 1000 -- node dist/main.js",
+    "prisma:den": "npx prisma generate"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "express": "^4.18.1",
     "inversify": "^6.0.1",
+    "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "tslog": "^3.3.3"
   },
@@ -37,6 +40,7 @@
     "minimalistic": "^1.0.0",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
+    "prisma": "^4.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
     "typescript-eslint": "0.0.1-alpha.0"
