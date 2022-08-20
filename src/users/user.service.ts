@@ -36,4 +36,9 @@ export class UserService {
     }
     return await compare(password, user.password)
   }
+
+  async getUser(email: string): Promise<any> {
+    const user = await this.userRepository.findOne(email)
+    return user
+  }
 }
